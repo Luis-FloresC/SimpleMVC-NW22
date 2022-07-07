@@ -4,6 +4,7 @@
     <input type="hidden" name="mode" value="{{mode}}" />
     <input type="hidden" name="crsf_token" value="{{crsf_token}}" />
     <input type="hidden" name="invPrdId" value="{{invPrdId}}" />
+
     <fieldset>
       <label for="invPrdBrCod">Código de Barra</label>
       <input {{if readonly}}readonly{{endif readonly}} type="text" id="invPrdBrCod" name="invPrdBrCod" placeholder="Código de Barra" value="{{invPrdBrCod}}"/>
@@ -13,6 +14,7 @@
         {{endfor error_invPrdBrCod}}
       {{endif error_invPrdBrCod}}
     </fieldset>
+
     <fieldset>
       <label for="invPrdCodInt">SKU</label>
       <input {{if readonly}}readonly{{endif readonly}} type="text" id="invPrdCodInt" name="invPrdCodInt" placeholder="SKU" value="{{invPrdCodInt}}" />
@@ -22,6 +24,7 @@
         {{endfor error_invPrdCodInt}}
       {{endif error_invPrdCodInt}}
     </fieldset>
+
     <fieldset>
       <label for="invPrdDsc">Descripción</label>
       <input {{if readonly}}readonly{{endif readonly}} type="text" id="invPrdDsc" name="invPrdDsc" placeholder="Descripción" value="{{invPrdDsc}}" />
@@ -31,6 +34,7 @@
           {{endfor error_invPrdDsc}}
       {{endif error_invPrdDsc}}
     </fieldset>
+
     <fieldset>
       <label for="invPrdTip">Tipo de Producto</label>
       <select name="invPrdTip" id="invPrdTip" {{if readonly}}readonly disabled{{endif readonly}}>
@@ -39,6 +43,7 @@
         {{endfor invPrdTipArr}}
       </select>
     </fieldset>
+
     <fieldset>
       <label for="invPrdEst">Estado</label>
       <select name="invPrdEst" id="invPrdEst" {{if readonly}}readonly disabled{{endif readonly}}>
@@ -47,6 +52,7 @@
         {{endfor invPrdEstArr}}
       </select>
     </fieldset>
+
     <fieldset>
       <label for="invPrdVnd">Es Vendible</label>
       <select name="invPrdVnd" id="invPrdVnd" {{if readonly}}readonly disabled{{endif readonly}}>
@@ -55,6 +61,7 @@
         {{endfor invPrdVndArr}}
       </select>
     </fieldset>
+
     <fieldset>
       {{if showBtn}}
         <button type="submit" name="btnEnviar">{{btnEnviarText}}</button>
@@ -62,6 +69,7 @@
       {{endif showBtn}}
       <button name="btnCancelar" id="btnCancelar">Cancelar</button>
     </fieldset>
+    
   </form>
 </section>
 <script>
