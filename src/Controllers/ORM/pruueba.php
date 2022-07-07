@@ -23,10 +23,13 @@ class Producto extends PublicController
             $this->procesarPost();
         }
         $this->processView();
-        Renderer::render("Mnt/Productos", $this->viewData);
+        Renderer::render("mnt/producto", $this->viewData);
     }
     private function init()
     {
+        $this->viewData["mode"] = "";
+        $this->viewData["mode_desc"] = "";
+        $this->viewData["crsf_token"] = "";
         $this->viewData["invPrdId"] = 0;
         $this->viewData["invPrdBrCod"] = "";
         $this->viewData["invPrdCodInt"] = "";
@@ -137,6 +140,33 @@ class Producto extends PublicController
                     }
                     break;
             }
+        }
+    }
+
+    private function processView()
+    {
+        if ($this->viewData["mode"] === "INS") {
+            $this->viewData["mode_desc"]  = $this->arrModeDesc["INS"];
+            $this->viewData["btnEnviarText"] = "Guardar Nuevo";
+        } else {
+            $this->viewData["mode_desc"]  = sprintf(
+                $this->arrModeDesc[$this->viewData["mode"]],
+                $this->viewData["invPrdId"],
+                $this->viewData["invPrdBrCod"]
+            );
+            if ($this->viewData["mode"] === "DSP") {
+                $this->viewData["readonly"] = true;
+                $this->viewData["showBtn"] = false;
+            }
+            if ($this->viewData["mode"] === "DEL") {
+                $this->viewData["readonly"] = true;
+                $this->viewData["btnEnviarText"] = "Eliminar";
+            }
+            if ($this->viewData["mode"] === "UPD") {
+                $this->viewData["btnEnviarText"] = "Actualizar";
+            }
+            $this->viewData["crsf_token"] = md5(getdate()[0] . $this->name);
+            $_SESSION[$this->name . "crsf_token"] = $this->viewData["crsf_token"];
         }
     }
 }

@@ -22,7 +22,7 @@
     {{if DaoModel}}
     <figure class="text-center">
         <blockquote class="blockquote">
-            <h3>Modelo de la Tabla: {{table}}</h3> &nbsp;
+            <h3>Archivo Dao: {{table}}</h3> &nbsp;
             <button type="button" onclick="copiarAlPortapapeles('p1')" class="btn btn-secondary">Copiar</button>
 
         </blockquote>
@@ -41,7 +41,7 @@
     {{if ControllerForList}}
     <figure class="text-center">
         <blockquote class="blockquote">
-            <h3>Controlador de Listado:{{table}}</h3>
+            <h3>Controlador Plural para Listar:{{table}}</h3>
             &nbsp;&nbsp;  &nbsp;&nbsp;  
             <button type="button" onclick="copiarAlPortapapeles('p2')" class="btn btn-secondary">Copiar</button>
         </blockquote>
@@ -61,7 +61,7 @@
     {{if ControllerForTable}}
     <figure class="text-center">
         <blockquote class="blockquote">
-            <h3>Controlador de la Tabla: {{table}}</h3>
+            <h3>Controlador de la Tabla(Singular): {{table}}</h3>
             &nbsp;&nbsp;
             <button type="button" onclick="copiarAlPortapapeles('p3')" class="btn btn-secondary">Copiar</button>
         </blockquote>
@@ -75,6 +75,40 @@
     {{endif ControllerForTable}}
     <br>
     <br>
+
+    {{if ViewForList}}
+    <figure class="text-center">
+        <blockquote class="blockquote">
+            <h3>Formulario Lista de Registros (Plural): {{table}}</h3>
+            &nbsp;&nbsp;
+            <button type="button" onclick="copiarAlPortapapeles('p4')" class="btn btn-secondary">Copiar</button>
+        </blockquote>
+    </figure>
+    <div class="card">
+
+        <div class="card-body">
+            <pre class="chroma" id="p4">{{ViewForList}}</pre>
+        </div>
+    </div>
+    {{endif ViewForList}}
+    <br>
+    <br>
+
+    {{if ViewForTable}}
+    <figure class="text-center">
+        <blockquote class="blockquote">
+            <h3>Formulario para Registros (Singular): {{table}}</h3>
+            &nbsp;&nbsp;
+            <button type="button" onclick="copiarAlPortapapeles('p5')" class="btn btn-secondary">Copiar</button>
+        </blockquote>
+    </figure>
+    <div class="card">
+
+        <div class="card-body">
+            <pre class="chroma" id="p5">{{ViewForTable}}</pre>
+        </div>
+    </div>
+    {{endif ViewForTable}}
 
 </div>    
 
