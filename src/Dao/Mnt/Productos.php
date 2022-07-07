@@ -1,4 +1,5 @@
 <?php
+
 /**
  * PHP Version 7
  * Modelo de Datos para modelo
@@ -98,13 +99,13 @@ VALUES
 :invPrdPadre, :invPrdFactor, :invPrdVnd);
 ";
         $sqlParams = [
-            "invPrdBrCod" => $invPrdBrCod ,
-            "invPrdCodInt" => $invPrdCodInt ,
-            "invPrdDsc" => $invPrdDsc ,
-            "invPrdTip" => $invPrdTip ,
-            "invPrdEst" => $invPrdEst ,
-            "invPrdPadre" => $invPrdPadre ,
-            "invPrdFactor" =>  $invPrdFactor ,
+            "invPrdBrCod" => $invPrdBrCod,
+            "invPrdCodInt" => $invPrdCodInt,
+            "invPrdDsc" => $invPrdDsc,
+            "invPrdTip" => $invPrdTip,
+            "invPrdEst" => $invPrdEst,
+            "invPrdPadre" => $invPrdPadre,
+            "invPrdFactor" =>  $invPrdFactor,
             "invPrdVnd" => $invPrdVnd
         ];
         return self::executeNonQuery($sqlstr, $sqlParams);
@@ -183,39 +184,39 @@ VALUES
 
     public static function getProductosforPage($Inicio, $Limite)
     {
-        $sqlstr = "SELECT * FROM productos p WHERE p.invPrdStock > 0 AND p.invPrdEst = 'ACT'  LIMIT :Inicio, :Limite;"; 
-        return self::obtenerRegistrosIntParams($sqlstr, array("Inicio"=>$Inicio, "Limite"=>$Limite));
+        $sqlstr = "SELECT * FROM productos p WHERE p.invPrdStock > 0 AND p.invPrdEst = 'ACT'  LIMIT :Inicio, :Limite;";
+        return self::obtenerRegistrosIntParams($sqlstr, array("Inicio" => $Inicio, "Limite" => $Limite));
     }
 
     public static function getOne($ProdId)
     {
         $sqlstr = "SELECT * FROM productos p  WHERE p.invPrdId = :ProdId AND p.invPrdEst = 'ACT';";
-        return self::obtenerUnRegistro($sqlstr, array("ProdId"=>$ProdId));
+        return self::obtenerUnRegistro($sqlstr, array("ProdId" => $ProdId));
     }
 
-   
+
 
     static public function searchProductosCliente($UsuarioBusqueda, $Inicio, $Limite)
     {
         $sqlstr = "SELECT * FROM productos p WHERE p.invPrdEst = 'ACT' AND p.invPrdStock > 0 AND (p.invPrdDsc LIKE :UsuarioBusqueda) or (p.invPrdPrecioVenta like :UsuarioBusqueda) LIMIT :Inicio, :Limite;";
-        return self::obtenerRegistros($sqlstr, array("UsuarioBusqueda"=>"%".$UsuarioBusqueda."%", "Inicio"=>intval($Inicio), "Limite"=>intval($Limite)));
+        return self::obtenerRegistros($sqlstr, array("UsuarioBusqueda" => "%" . $UsuarioBusqueda . "%", "Inicio" => intval($Inicio), "Limite" => intval($Limite)));
     }
 
-    static public function searchProductosByPrice($rangoInicial,$rangoFinal,$Inicio,$Limite)
+    static public function searchProductosByPrice($rangoInicial, $rangoFinal, $Inicio, $Limite)
     {
         $sqlstr = "SELECT * FROM productos p WHERE p.invPrdEst = 'ACT' AND p.invPrdStock > 0 AND p.invPrdPrecioVenta between :rangoInicial and :rangoFinal LIMIT :inicio, :limite;";
-        return self::obtenerRegistros($sqlstr, array("rangoInicial" => $rangoInicial, "rangoFinal"=>$rangoFinal,"inicio"=>$Inicio,"limite"=>$Limite));
+        return self::obtenerRegistros($sqlstr, array("rangoInicial" => $rangoInicial, "rangoFinal" => $rangoFinal, "inicio" => $Inicio, "limite" => $Limite));
     }
-    
-    static public function searchProductosByPriceCount($rangoInicial,$rangoFinal){
+
+    static public function searchProductosByPriceCount($rangoInicial, $rangoFinal)
+    {
         $sqlstr = "SELECT count(*) as 'Total' FROM productos p WHERE p.invPrdEst = 'ACT' AND p.invPrdStock > 0 AND p.invPrdPrecioVenta between :rangoInicial and :rangoFinal;";
-        return self::obtenerRegistros($sqlstr, array("rangoInicial" => $rangoInicial, "rangoFinal"=>$rangoFinal));
+        return self::obtenerRegistros($sqlstr, array("rangoInicial" => $rangoInicial, "rangoFinal" => $rangoFinal));
     }
 
     static public function searchProductosClienteCount($UsuarioBusqueda)
     {
         $sqlstr = "SELECT COUNT(invPrdId) as 'Total' FROM productos WHERE invPrdStock > 0 AND invPrdEst = 'ACT' AND (invPrdDsc LIKE :UsuarioBusqueda);";
-        return self::obtenerUnRegistro($sqlstr, array("UsuarioBusqueda"=>"%".$UsuarioBusqueda."%"));
+        return self::obtenerUnRegistro($sqlstr, array("UsuarioBusqueda" => "%" . $UsuarioBusqueda . "%"));
     }
-
 }

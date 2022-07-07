@@ -1,6 +1,6 @@
 <section class="container-fluid" id="productos">
     <h4 class="my-4 text-center p-3 mb-2 bg-light text-dark">{{PageTitle}}</h4>
-    
+    <!--Hola Nayeli-->
     <form class="form-inline align-items-center d-flex justify-content-center mb-4" action="index.php" method="GET">
         <input type="hidden" name="page" value="mnt_catalogo"/>
         <input type="hidden" name="PageIndex" value="1" />

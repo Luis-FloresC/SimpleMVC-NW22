@@ -40,7 +40,7 @@ class Catalogo extends PublicController //Nos permite tener los controladores ad
     private $PageTitle = "";
     private $Productos = array();
     private $Page = 0;
-    private $ProductLimit = 2;
+    private $ProductLimit = 3;
     private $Start = 0;
     private $Total = 0;
     private $PagesCount = 1;
