@@ -110,6 +110,17 @@ class Generador extends PublicController
         return $Variables;
     }
 
+    private function GetVariablesTempArray()
+    {
+        $Variables = array();
+        $NombreClase =  substr($this->_viewData["entity"], 0, -1);
+        foreach ($this->_viewData["Tabla"] as $field) {
+         
+            $Variables[] = sprintf('$this->viewData["%s"] = $tmp%s[0]["%s"];', $field["Field"], $NombreClase,$field["Field"]);
+        }
+        return $Variables;
+    }
+
     private function GetParametrosViewData($isUpdate)
     {
         $Acum = "(";
@@ -149,6 +160,25 @@ class Generador extends PublicController
         $Acum .= ")";
         return $Acum;
     }
+
+    private function GetParametrosInsert($isUpdate)
+    {
+        $Acum = "(";
+        foreach ($this->_viewData["Tabla"] as $field) {
+            if ($isUpdate) {
+                $Acum .= sprintf("%s,", $field["Field"]);
+            } else {
+                if ($field["Key"] !== "PRI") {
+                    $Acum .= sprintf("%s,", $field["Field"]);
+                }
+            }
+        }
+        $Acum = substr($Acum, 0, -1);
+
+        $Acum .= ")";
+        return $Acum;
+    }
+
 
     private function GetParametrosMysql($isUpdate)
     {
@@ -211,7 +241,7 @@ class Generador extends PublicController
 
         $buffer[] =  '';
         $buffer[] = sprintf('public static function insert%s{', $this->GetParametros(false));
-        $buffer[] = sprintf('$sqlstr = "INSERT INTO %s%s values (%s)";', $this->_viewData["table"], $this->GetParametros(false), $this->GetParametrosMysql(false));
+        $buffer[] = sprintf('$sqlstr = "INSERT INTO %s%s values (%s)";', $this->_viewData["table"], $this->GetParametrosInsert(false), $this->GetParametrosMysql(false));
         $buffer[] = sprintf('$sqlParams = %s;', $this->GetParametrosArray(false));
         $buffer[] = 'return self::executeNonQuery($sqlstr, $sqlParams);';
         $buffer[] =  '}';
@@ -261,7 +291,7 @@ class Generador extends PublicController
         $buffer[] = 'public function run(): void{';
         $buffer[] = sprintf('$this->_viewData["%s"] = Dao%s::getAll();', $this->_viewData["entity"], $this->_viewData["entity"]);
         $buffer[] = 'error_log(json_encode($this->_viewData));';
-        $buffer[] = sprintf('Renderer::render("%s/%s", $this->_viewData);', $this->_viewData["namespace"], $this->_viewData["entity"]);
+        $buffer[] = sprintf('Renderer::render("%s/%s", $this->_viewData);', strtolower($this->_viewData["namespace"]), strtolower($this->_viewData["entity"]));
         $buffer[] = '}';
         $buffer[] = '}';
         /*
@@ -291,6 +321,7 @@ class Generador extends PublicController
         $Variables = $this->GetVariablesViewData();
         $llavePrimaria = ($this->GetFieldPrimaryKey());
         $VariablesError = $this->GetVariablesError();
+        $VariablesTemporales = $this->GetVariablesTempArray();
         $Campos = $this->GetFields();
         $ParametrosViewDataGuardar = $this->GetParametrosViewData(false);
         $ParametrosViewDataModi = $this->GetParametrosViewData(true);
@@ -363,24 +394,20 @@ class Generador extends PublicController
                     "No se puede procesar su solicitud!"
                 );
             }
-        }', $this->_viewData["entity"], $this->_viewData["namespace"], $this->_viewData["entity"]);
+        }', $this->_viewData["entity"], strtolower($this->_viewData["namespace"]), strtolower($this->_viewData["entity"]));
 
         $buffer[] = sprintf('if ($this->viewData["mode"] !== "INS" && isset($_GET["id"])) {
             $this->viewData["%s"] = intval($_GET["id"]);
             $tmp%s = %s::getById($this->viewData["%s"]);
             error_log(json_encode($tmp%s));
             \Utilities\ArrUtils::mergeFullArrayTo($tmp%s, $this->viewData);
+        ', $llavePrimaria[0], $NombreClase, $this->_viewData["entity"], $llavePrimaria[0], $NombreClase, $NombreClase);
+
+        foreach ($VariablesTemporales as $dato) {
+            $buffer[] = $dato;
         }
-    }', $llavePrimaria[0], $NombreClase, $this->_viewData["entity"], $llavePrimaria[0], $NombreClase, $NombreClase);
-
-
-
-
-
-
-
-
-
+        $buffer[]= '}';
+        $buffer[] = '}';
         $buffer[] = 'private function procesarPost(){';
         $buffer[] = '';
         $buffer[] = '$hasErrors = false;
@@ -465,9 +492,10 @@ class Generador extends PublicController
             $this->viewData["btnEnviarText"] = "Actualizar";
         }';
 
+
+        $buffer[] = '}'; //fin del else
         $buffer[] = '$this->viewData["crsf_token"] = md5(getdate()[0] . $this->name);
         $_SESSION[$this->name . "crsf_token"] = $this->viewData["crsf_token"];';
-        $buffer[] = '}'; //fin del else
         $buffer[] = '}'; //fin de processView
         $buffer[] = '}'; //fin de la clase
         $buffer[] = '?>';
@@ -491,7 +519,7 @@ class Generador extends PublicController
         foreach ($this->_viewData["Tabla"] as $field) {
             $buffer[] = sprintf('               <th>%s</th>', $field["Field"]);
         }
-        $buffer[] = sprintf('           <th><a href="index.php?page=%s-%s&mode=INS">Nuevo</a></th>', $this->_viewData['namespace'], $this->_viewData['entity']);
+        $buffer[] = sprintf('           <th><a href="index.php?page=%s_%s&mode=INS">Nuevo</a></th>', $this->_viewData['namespace'], $NombreClase);
         $buffer[] = '           </tr>';
         $buffer[] = '       </thead>';
         $buffer[] = '       <tbody>';

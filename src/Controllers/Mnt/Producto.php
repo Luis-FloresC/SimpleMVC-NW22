@@ -148,7 +148,7 @@ class Producto extends PublicController
         ) {
             \Utilities\Site::redirectToWithMsg(
                 "index.php?page=mnt_productos",
-                "ERROR: Algo inesperado sucedió con la petición Intente de nuevo."
+                "ERROR: Algo aa inesperado sucedió con la petición Intente de nuevo."
             );
         }
 
