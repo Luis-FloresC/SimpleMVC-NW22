@@ -1,3 +1,4 @@
+-- Active: 1657661970078@@127.0.0.1@3306@nw202202
 CREATE TABLE `usuario` (
   `usercod` bigint(10) NOT NULL AUTO_INCREMENT,
   `useremail` varchar(80) DEFAULT NULL,

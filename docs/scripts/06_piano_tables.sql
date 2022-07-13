@@ -1,3 +1,4 @@
+-- Active: 1657661970078@@127.0.0.1@3306@nw202202
 CREATE TABLE `pianos` (
   `pianoid` BIGINT(18) NOT NULL AUTO_INCREMENT,
   `pianodsc` VARCHAR(60) NULL,

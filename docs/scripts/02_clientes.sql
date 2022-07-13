@@ -1,4 +1,4 @@
--- Active: 1643657430298@@127.0.0.1@3306@nw202202
+-- Active: 1657661970078@@127.0.0.1@3306@nw202202
 CREATE TABLE `clientes` (
   `clientid` bigint(15) NOT NULL AUTO_INCREMENT,
   `clientname` varchar(128) DEFAULT NULL,

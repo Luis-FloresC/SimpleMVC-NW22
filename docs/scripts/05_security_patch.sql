@@ -1,3 +1,4 @@
+-- Active: 1657661970078@@127.0.0.1@3306@nw202202
 DROP TABLE  `funciones_roles`;
 DROP TABLE `funciones`;
 
